@@ -32,6 +32,8 @@ INSTALLED_APPS = [
 
     "genres",
     "actors",
+    "movies",
+    "reviews",
 ]
 
 MIDDLEWARE = [
@@ -144,6 +146,7 @@ JAZZMIN_SETTINGS = {
         {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
         {"app": "genres"},
         {"app": "actors"},
+        {"app": "movies"},
     ],
     
 
