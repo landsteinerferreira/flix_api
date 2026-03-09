@@ -28,12 +28,15 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    
     "rest_framework",
+    "rest_framework_simplejwt",
 
     "genres",
     "actors",
     "movies",
     "reviews",
+    "authentication",
 ]
 
 MIDDLEWARE = [
@@ -120,43 +123,41 @@ STATICFILES_DIRS = [
 
 
 JAZZMIN_SETTINGS = {
-    "site_logo": "logo.png",
     "site_title": "Flix API",
-    "site_icon": "logo.png",  # Esta linha adiciona a logo na aba do navegador
-    # Logo para dispositivos móveis (opcional)
-    "site_logo_mobile": None,
     "site_header": "Painel de Controle",
-    "site_brand": " ",
-    "welcome_sign": "Bem-vindo ao sistema",
-    # "copyright": "L11 Web - By Landsteiner Ferreira",
-    # "show_sidebar": True,
+    "site_brand": "Flix API",
+
+    
+
+    # "site_logo": "logo.png",
+    
+    # "site_icon": "logo.png",  # Esta linha adiciona a logo na aba do navegador
+    # # Logo para dispositivos móveis (opcional)
+    # "site_logo_mobile": None,
+    
+    
+    # "welcome_sign": "Bem-vindo ao sistema",
+    "copyright": "L11 Web - By Landsteiner Ferreira",
+    # # "show_sidebar": True,
     # "navigation_expanded": True,
 
+    'icons': {
+        'auth': 'fas fa-users-cog',
+        'auth.user': 'fas fa-user',
+        'auth.Group': 'fas fa-users',
+        'genres.Genre': 'fas fa-object-group',
+        'movies.Movie': 'fas fa-film',
+        'reviews.Review': 'fas fa-star',
+        'actors.Actor': 'fas fa-masks-theater',
+    },
 
-    # Se você quiser esconder uma aplicação inteira (como 'auth' ou 'admin')
-    "hide_apps": ["auth"], 
-
-    # Se quiser esconder modelos específicos
-    "hide_models": ["auth.user", "auth.group"],
-    
-    
-# Menu Suspenso
-    "topmenu_links": [
-
-        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
-        {"app": "genres"},
-        {"app": "actors"},
-        {"app": "movies"},
-    ],
-    
-
-    
 
 }
 
 
-JAZZMIN_UI_TWEAKS = {
-    "theme": "cosmo",
-    #"theme": "simplex",
-    "custom_css": "static/css/custom_admin.css", 
+#configuração para o jwt
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
 }
