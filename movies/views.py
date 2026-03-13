@@ -1,8 +1,10 @@
-from rest_framework import generics
+from django.db.models import Count, Avg
+from rest_framework import generics, views, response, status
 from rest_framework.permissions import IsAuthenticated
 from app.permissions import GlobalDefaultPermition
 from movies.models import Movie
-from movies.serializers import MovieSerializer
+from movies.serializers import MovieSerializer, MovieStatsSerializer
+from reviews.models import Review
 
 class MovieCreateListView(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated, GlobalDefaultPermition)
@@ -15,3 +17,28 @@ class MovieRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MovieSerializer
 
 
+class MovieStatsView(views.APIView):
+    permission_classes = (IsAuthenticated, GlobalDefaultPermition)
+    queryset = Movie.objects.all()
+
+    def get(self, request):
+        # Buscar todos os dados
+        # Montar resposta
+        # Devolve resposta pro user com statisticas
+
+        total_movies = self.queryset.count() # Conta filmes
+        movies_by_genre = self.queryset.values('genre__name').annotate(count=Count('id')) # Conta Filmes por nome
+        total_reviews = Review.objects.count() # Conta reviwes
+        average_stars =  Review.objects.aggregate(avg_stars=Avg('stars'))['avg_stars'] # Cria a media de reviews
+
+        data={
+            'total_movies': total_movies,
+            'movies_by_genre': movies_by_genre,
+            'total_reviews': total_reviews,
+            'average_stars': round(average_stars, 1) if average_stars else 0,
+        }
+
+        serializer = MovieStatsSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+
+        return response.Response(data=serializer.validated_data, status=status.HTTP_200_OK)
