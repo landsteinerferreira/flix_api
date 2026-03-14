@@ -3,18 +3,28 @@ from rest_framework import generics, views, response, status
 from rest_framework.permissions import IsAuthenticated
 from app.permissions import GlobalDefaultPermition
 from movies.models import Movie
-from movies.serializers import MovieSerializer, MovieStatsSerializer
+from movies.serializers import MovieModelSerializer, MovieStatsSerializer, MovieListDetailSerializer
 from reviews.models import Review
+
 
 class MovieCreateListView(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated, GlobalDefaultPermition)
     queryset = Movie.objects.all()
-    serializer_class = MovieSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return MovieListDetailSerializer
+        return MovieModelSerializer
+
 
 class MovieRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated, GlobalDefaultPermition)
     queryset = Movie.objects.all()
-    serializer_class = MovieSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return MovieListDetailSerializer
+        return MovieModelSerializer
 
 
 class MovieStatsView(views.APIView):
@@ -25,13 +35,12 @@ class MovieStatsView(views.APIView):
         # Buscar todos os dados
         # Montar resposta
         # Devolve resposta pro user com statisticas
+        total_movies = self.queryset.count()  # Conta filmes
+        movies_by_genre = self.queryset.values('genre__name').annotate(count=Count('id'))  # Conta Filmes por nome
+        total_reviews = Review.objects.count()  # Conta reviwes
+        average_stars = Review.objects.aggregate(avg_stars=Avg('stars'))['avg_stars']  # Cria a media de reviews
 
-        total_movies = self.queryset.count() # Conta filmes
-        movies_by_genre = self.queryset.values('genre__name').annotate(count=Count('id')) # Conta Filmes por nome
-        total_reviews = Review.objects.count() # Conta reviwes
-        average_stars =  Review.objects.aggregate(avg_stars=Avg('stars'))['avg_stars'] # Cria a media de reviews
-
-        data={
+        data = {
             'total_movies': total_movies,
             'movies_by_genre': movies_by_genre,
             'total_reviews': total_reviews,

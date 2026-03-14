@@ -1,5 +1,6 @@
 from django.db import models
 
+
 NATIONALITY_CHOICES = (
     ('BRAZIL', 'Brasil'),
     ('ARGENTINA', 'Argentina'),
@@ -32,7 +33,6 @@ class Actor(models.Model):
         blank=True,
         null=True
     )
+
     def __str__(self):
         return self.name
-    
-    

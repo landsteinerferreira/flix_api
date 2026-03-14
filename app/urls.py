@@ -5,7 +5,6 @@ from django.urls import path, include
 from actors import views
 
 urlpatterns = [
-    
     path("admin/", admin.site.urls),
     path('', views.home, name='home'),
 
@@ -14,8 +13,6 @@ urlpatterns = [
     path('api/v1/', include('actors.urls')),
     path('api/v1/', include('movies.urls')),
     path('api/v1/', include('reviews.urls')),
-    
-   
 ]
 
 if settings.DEBUG:

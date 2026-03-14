@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 from app.permissions import GlobalDefaultPermition
-from actors.models import Actor 
+from actors.models import Actor
 from actors.serializers import ActorSerializer
 
 
@@ -10,7 +10,6 @@ class ActorCreateListView(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated, GlobalDefaultPermition)
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
-
 
 
 class ActorRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):

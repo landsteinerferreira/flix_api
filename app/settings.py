@@ -1,6 +1,6 @@
-import os
 from pathlib import Path
 from datetime import timedelta
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +21,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    #"unfold",
+    # "unfold",
     "jazzmin",  # Deve vir primeiro!
     "django.contrib.admin",
     "django.contrib.auth",
@@ -29,7 +29,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
     "rest_framework",
     "rest_framework_simplejwt",
 
@@ -128,15 +127,10 @@ JAZZMIN_SETTINGS = {
     "site_header": "Painel de Controle",
     "site_brand": "Flix API",
 
-    
-
     # "site_logo": "logo.png",
-    
     # "site_icon": "logo.png",  # Esta linha adiciona a logo na aba do navegador
     # # Logo para dispositivos móveis (opcional)
     # "site_logo_mobile": None,
-    
-    
     # "welcome_sign": "Bem-vindo ao sistema",
     "copyright": "L11 Web - By Landsteiner Ferreira",
     # # "show_sidebar": True,
@@ -156,14 +150,14 @@ JAZZMIN_SETTINGS = {
 }
 
 
-#configuração para o jwt
+# configuração para o jwt
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
 
-#configurações personalizadas para o jwt
+# configurações personalizadas para o jwt
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
